@@ -1,0 +1,93 @@
+/* ──────────────────────────────────────────────────────────────
+   Stay Santa Rosa design system, foundation tokens
+   Editorial luxury: Marcellus display caps, Jost body, square
+   edges, generous white space, monochrome field with the brand
+   terracotta (swallow mark) and gold (lockup subtitle) as accents.
+   Nothing else in the codebase declares a raw palette value.
+   ────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ---- Spacing: min() based. Viewport proportional, hard capped. ---- */
+  --space-10: 1rem;
+  --space-20: min(1.5rem,  2vw);
+  --space-30: min(2.5rem,  3vw);
+  --space-40: min(5rem,    6vw);   /* section padding + root gutter */
+  --space-50: min(7rem,    9vw);
+  --space-60: min(10.5rem, 13vw);  /* closing CTA only */
+
+  /* ---- Layout ---- */
+  --content: 640px;   /* centred text measure */
+  --wide:   1320px;   /* wide rows, grids */
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --block-gap: 1.2rem;
+  --article-measure: 720px;
+  --nav-h: 68px;
+
+  --gap-hero:    140px;
+  --gap-feature: 96px;
+  --gap-tight:   1.5rem;
+
+  /* ---- Brand colour (from the Stay Santa Rosa logo suite) ---- */
+  --brand-terracotta:     #B5603F;  /* swallow mark */
+  --brand-terracotta-ink: #A5532F;  /* terracotta for small text on light */
+  --brand-terracotta-lt:  #D4906F;  /* terracotta on dark fields */
+  --brand-gold:           #9D7E43;  /* "Sonoma County Guides" */
+  --brand-gold-ink:       #85693A;
+  --brand-ink:            #262626;  /* wordmark */
+  --brand-night:          #1A1A1A;  /* dark lockup field */
+  --brand-cream:          #F6F2EC;  /* light lockup field */
+
+  /* ---- Colour roles ---- */
+  --page:       #FFFFFF;
+  --base:       var(--brand-cream);   /* band fill 1 */
+  --base-2:     #F0EBE4;              /* band fill 2, hairlines on cream */
+  --blush:      #FAF3EE;              /* soft band */
+  --line:       #E6E1DA;              /* hairline on white */
+  --contrast:   var(--brand-night);   /* dark fields, primary buttons */
+  --contrast-mid: var(--brand-ink);
+  --contrast-2: var(--brand-terracotta-ink); /* links, badges */
+  --contrast-2-dim: #8E4526;
+
+  --accent:     var(--brand-terracotta);
+  --accent-dim: var(--brand-terracotta-ink);
+  --ink:        var(--brand-ink);
+  --ink-soft:   #5E5E5E;
+  --ink-mute:   #8A8A8A;
+
+  /* ---- Legacy names resolve through the roles above ---- */
+  --slate:      var(--contrast);
+  --slate-mid:  var(--contrast-mid);
+  --ivory:      var(--brand-cream);
+  --ivory-dim:  var(--base-2);
+  --gold:       var(--accent);
+  --gold-dim:   var(--accent-dim);
+  --merlot:     var(--contrast);
+  --merlot-dim: var(--contrast-mid);
+  --text:       var(--ink);
+  --text-light: var(--ink-soft);
+  --white:      var(--page);
+
+  /* ---- Type scale ---- */
+  --fs-xs:  0.72rem;
+  --fs-sm:  clamp(0.84rem, 0.82rem + 0.2vw, 0.95rem);
+  --fs-md:  clamp(1rem,    0.95rem + 0.5vw, 1.25rem);
+  --fs-lg:  clamp(1.6rem,  1.3rem  + 1.4vw, 2.4rem);
+  --fs-xl:  clamp(2.2rem,  1.6rem  + 2.6vw, 3.6rem);
+  --fs-xxl: clamp(2.8rem,  1.8rem  + 4.4vw, 5.4rem);
+
+  --lh-display: 1.08;
+  --lh-heading: 1.18;
+  --lh-body:    1.7;
+
+  --track-caps:  0.16em;  /* small uppercase labels */
+  --track-title: 0.04em;  /* display caps */
+
+  --radius: 0;
+  --radius-pill: 0;       /* the system is square-edged */
+
+  /* ---- Families and motion ---- */
+  --ff-display: 'Marcellus', 'Times New Roman', serif;
+  --ff-body:    'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-soft:  cubic-bezier(0.22, 1, 0.36, 1);
+}

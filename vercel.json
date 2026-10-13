@@ -1,0 +1,126 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.staysantarosa.com"
+        }
+      ],
+      "destination": "https://staysantarosa.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/restaurant-guide",
+      "destination": "/directory?cat=dining",
+      "permanent": true
+    },
+    {
+      "source": "/restaurant-guide.html",
+      "destination": "/directory?cat=dining",
+      "permanent": true
+    },
+    {
+      "source": "/wine-guide",
+      "destination": "/directory?cat=wine",
+      "permanent": true
+    },
+    {
+      "source": "/wine-guide.html",
+      "destination": "/directory?cat=wine",
+      "permanent": true
+    },
+    {
+      "source": "/attractions-guide",
+      "destination": "/directory?cat=attractions",
+      "permanent": true
+    },
+    {
+      "source": "/attractions-guide.html",
+      "destination": "/directory?cat=attractions",
+      "permanent": true
+    },
+    {
+      "source": "/blog-dining-guide",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-dining-guide.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-dog-friendly-sonoma",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-dog-friendly-sonoma.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-enology-lounge",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-enology-lounge.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-things-to-do",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-things-to-do.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-walking-santa-rosa",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-walking-santa-rosa.html",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-wineries-guide",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog-wineries-guide.html",
+      "destination": "/blog",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(css|js)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    }
+  ]
+}

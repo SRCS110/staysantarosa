@@ -1,0 +1,83 @@
+/* Stay Santa Rosa directory: map view (list column + MapLibre map in the site palette). */
+
+/* List / Map toggle, styled like the site's outlined buttons */
+.dir-view { display: inline-flex; border: 1px solid var(--contrast); margin-left: auto; }
+.dir-view-btn {
+  background: transparent; color: var(--contrast); border: 0; cursor: pointer;
+  font-family: var(--ff-body); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  padding: 0.6rem 1.1rem; transition: background var(--transition), color var(--transition);
+}
+.dir-view-btn + .dir-view-btn { border-left: 1px solid var(--contrast); }
+.dir-view-btn.is-active, .dir-view-btn:hover { background: var(--contrast); color: var(--page); }
+.dir-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+.dir-grid[hidden] { display: none !important; }
+
+/* Two columns: list on the left, map on the right */
+.dir-map-wrap {
+  display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 0;
+  border: 1px solid var(--line); background: var(--page); margin-top: 1rem;
+  height: min(72vh, 720px);
+}
+.dir-map-wrap[hidden] { display: none; }
+.dir-map-list { overflow-y: auto; border-right: 1px solid var(--line); overscroll-behavior: contain; }
+.dir-map-canvas { position: relative; min-height: 320px; }
+.dir-map { position: absolute; inset: 0; background: var(--base); }
+
+/* Map controls: square, hairline, site type */
+.dir-map .maplibregl-ctrl-group { border-radius: 0; box-shadow: none; border: 1px solid var(--line); background: var(--page); }
+.dir-map .maplibregl-ctrl-group button { width: 32px; height: 32px; }
+.dir-map .maplibregl-ctrl-group button + button { border-top: 1px solid var(--line); }
+.dir-map .maplibregl-ctrl-top-left .maplibregl-ctrl { margin: 14px 0 0 14px; }
+.dir-map .maplibregl-ctrl-attrib { font-family: var(--ff-body); font-size: 0.62rem; background: rgba(246,242,236,0.9); }
+.dir-map .maplibregl-ctrl-attrib a { color: var(--ink-soft); }
+.dir-map .maplibregl-ctrl-attrib.maplibregl-compact { border-radius: 0; }
+
+/* List rows */
+.dir-map-item { border-bottom: 1px solid var(--line); }
+.dir-map-row {
+  display: block; width: 100%; text-align: left; background: none; border: 0; cursor: pointer;
+  padding: 1rem 1.25rem; transition: background var(--transition);
+}
+.dir-map-row:hover, .dir-map-item.is-open .dir-map-row { background: var(--base); }
+.dir-map-row-eyebrow {
+  display: block; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent-dim); margin-bottom: 0.3rem;
+}
+.dir-map-row-name { display: block; font-family: var(--ff-display); font-size: 1.12rem; line-height: 1.25; color: var(--contrast); }
+.dir-map-row-sub { display: block; font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.25rem; }
+.dir-map-item.is-open { box-shadow: inset 3px 0 0 var(--accent); }
+
+/* The card that opens under a row (reuses the directory card markup) */
+.dir-map-card { padding: 0 1.25rem 1.2rem; background: var(--base); }
+.dir-map-card .dir-card--inline { padding: 0; border: 0; background: transparent; box-shadow: none; }
+.dir-map-card .dir-card--inline:hover { transform: none; box-shadow: none; }
+.dir-map-card .dir-desc { font-size: 0.86rem; }
+.dir-map-empty, .dir-map-error { padding: 1.4rem 1.25rem; font-size: 0.9rem; color: var(--ink-soft); }
+
+/* Pins in brand colours */
+.dir-pin { position: absolute; top: 0; left: 0; width: 18px; height: 18px; padding: 0; border: 0; background: none; cursor: pointer; }
+.dir-pin span {
+  display: block; width: 14px; height: 14px; margin: 2px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--page); box-shadow: 0 1px 4px rgba(26,26,26,0.35);
+  transition: transform 0.2s ease;
+}
+.dir-pin--hotels span { background: var(--contrast); }
+.dir-pin.is-active span { transform: scale(1.45); background: var(--contrast); border-color: var(--accent); }
+.dir-pin-tip {
+  position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+  white-space: nowrap; font-style: normal; font-family: var(--ff-body); font-size: 0.66rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--contrast);
+  background: var(--page); border: 1px solid var(--line); padding: 0.3rem 0.55rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
+}
+.dir-pin:hover .dir-pin-tip, .dir-pin:focus-visible .dir-pin-tip, .dir-pin.is-active .dir-pin-tip { opacity: 1; }
+.dir-pin:hover { z-index: 3; }
+
+/* Mobile: map on top, list underneath */
+@media (max-width: 760px) {
+  .dir-map-wrap { grid-template-columns: 1fr; grid-template-rows: 300px auto; height: auto; }
+  .dir-map-canvas { order: -1; }
+  .dir-map-list { border-right: 0; border-top: 1px solid var(--line); max-height: 60vh; }
+  .dir-view { margin-left: 0; }
+}
