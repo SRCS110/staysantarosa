@@ -103,6 +103,17 @@
     }
   }
 
-  function start() { bindCodes(document); initLocal(); }
+  /* hotel offers: hide after data-expires, drop "Opens" flag once live */
+  function initDated() {
+    var t = today();
+    document.querySelectorAll('.deal-row[data-expires]').forEach(function (r) {
+      if (r.getAttribute('data-expires') < t) r.hidden = true;
+    });
+    document.querySelectorAll('[data-flag-before]').forEach(function (f) {
+      if (f.getAttribute('data-flag-before') <= t) f.hidden = true;
+    });
+  }
+
+  function start() { initDated(); bindCodes(document); initLocal(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
