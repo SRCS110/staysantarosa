@@ -174,13 +174,13 @@ CRUMB = {
  'blog': [('Blog', None)],
  'art-house': [('Hotels', 'hotels'), ('Art House Santa Rosa', None)],
  'hotel-e': [('Hotels', 'hotels'), ('Hotel E Santa Rosa', None)],
- 'hotels': [('Where to Stay', None)], 'contact': [('Contact', None)], 'privacy': [('Privacy Policy', None)],
+ 'hotels': [('Where to Stay', None)], 'deals': [('Deals', None)], 'contact': [('Contact', None)], 'privacy': [('Privacy Policy', None)],
  'terms': [('Terms of Use', None)], 'accessibility': [('Accessibility', None)], 'about': [('About', None)],
 }
 PTYPE = {'index': 'WebPage', 'directory': 'CollectionPage', 'dining': 'CollectionPage', 'wine-country': 'CollectionPage',
          'attractions': 'CollectionPage', 'dining-list': 'CollectionPage', 'wine-country-list': 'CollectionPage',
          'attractions-list': 'CollectionPage', 'blog': 'CollectionPage', 'contact': 'ContactPage',
-         'art-house': 'WebPage', 'hotel-e': 'WebPage', 'accessibility': 'WebPage', 'privacy': 'WebPage', 'terms': 'WebPage', 'about': 'AboutPage', 'hotels': 'CollectionPage'}
+         'art-house': 'WebPage', 'hotel-e': 'WebPage', 'accessibility': 'WebPage', 'privacy': 'WebPage', 'terms': 'WebPage', 'about': 'AboutPage', 'hotels': 'CollectionPage', 'deals': 'CollectionPage'}
 
 def text(s): return ' '.join(html.unescape(re.sub(r'<[^>]+>', ' ', s or '')).split())
 
@@ -413,7 +413,7 @@ for f in pages: print(f, build(f))
 
 # ── sitemap ───────────────────────────────────────────────
 PRI = {'index': '1.0', 'directory': '0.9', 'dining': '0.9', 'wine-country': '0.9', 'attractions': '0.9',
-       'art-house': '0.8', 'hotel-e': '0.8', 'hotels': '0.9', 'dining-list': '0.8', 'wine-country-list': '0.8', 'attractions-list': '0.8', 'blog': '0.7', 'about': '0.5'}
+       'art-house': '0.8', 'hotel-e': '0.8', 'hotels': '0.9', 'deals': '0.8', 'dining-list': '0.8', 'wine-country-list': '0.8', 'attractions-list': '0.8', 'blog': '0.7', 'about': '0.5'}
 urls = []
 for f in pages:
     slug = f[:-5]
@@ -435,7 +435,7 @@ def link(slug):
     return '- [%s](%s%s): %s' % (t, BASE, '' if slug == 'index' else slug, d)
 SECTIONS = [
  ('Plan a trip', ['index', 'directory', 'contact']),
- ('Where to stay: hotels', ['hotels', 'art-house', 'hotel-e']),
+ ('Where to stay: hotels', ['hotels', 'art-house', 'hotel-e', 'deals']),
  ('Eat and drink', ['dining', 'dining-list', 'wine-country', 'wine-country-list']),
  ('Things to do', ['attractions', 'attractions-list']),
  ('Journal', ['blog'] + sorted(x[:-5] for x in pages if x.startswith('blog-'))),
