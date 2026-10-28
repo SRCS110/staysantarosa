@@ -67,8 +67,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://staysantarosa.com/blog-fall-colors-santa-rosa</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://staysantarosa.com/blog-whale-watching-sonoma-coast</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://staysantarosa.com/blog-winter-wineland-2027-santa-rosa</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://staysantarosa.com/blog</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
