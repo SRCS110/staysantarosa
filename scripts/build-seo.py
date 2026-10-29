@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stay Santa Rosa SEO build.
 Regenerates JSON-LD structured data, visible breadcrumbs, image labels,
-the prerendered directory and sitemap.xml. Safe to re-run after content edits:
+the prerendered directory, sitemap.xml, llms.txt and llms-full.txt. Safe to re-run after content edits:
   python3 scripts/build-seo.py
 Reads js/directory-data.js as the single source of truth for businesses."""
 import re, json, os, html, datetime, subprocess
@@ -320,6 +320,35 @@ def label_images(s, page_title):
     return re.sub(r'<(?:div|section|span)\b[^>]*(?:data-bg="[^"]*"|style="[^"]*background-image:url\([^)]*\)[^"]*")[^>]*>', fix, s)
 
 # ── main per-page build ───────────────────────────────────
+# ── real content dates ────────────────────────────────────
+# dateModified / sitemap lastmod come from the last git commit that changed a page's
+# actual content. Build-generated noise (JSON-LD, asset ?v= hashes) is ignored, so
+# re-running this script does not mark every page as changed today. Uncommitted
+# content edits count as today.
+_DATES = {}
+def _strip(s):
+    s = re.sub(r'<script type="application/ld\+json">.*?</script>', '', s, flags=re.S)
+    return re.sub(r'\?v=\w+', '', s)
+def _git(*a):
+    return subprocess.run(['git'] + list(a), capture_output=True, text=True).stdout
+def page_date(f):
+    if f in _DATES: return _DATES[f]
+    d = TODAY
+    try:
+        cur = open(f, encoding='utf-8').read()
+        head = subprocess.run(['git', 'show', 'HEAD:' + f], capture_output=True, text=True)
+        if head.returncode == 0 and _strip(head.stdout) == _strip(cur):
+            for line in _git('log', '--format=%H %cs', '--', f).split('\n'):
+                if not line: continue
+                h, day = line.split()
+                d = day
+                parent = subprocess.run(['git', 'show', h + '^:' + f], capture_output=True, text=True)
+                if parent.returncode or _strip(parent.stdout) != _strip(_git('show', h + ':' + f)): break
+    except Exception:
+        d = TODAY
+    _DATES[f] = d
+    return d
+
 def build(f):
     slug = f[:-5]
     s = open(f, encoding='utf-8').read()
@@ -352,7 +381,7 @@ def build(f):
     if slug != '404':
         wp = {'@type': PTYPE.get(slug, 'WebPage'), '@id': wp_id, 'url': url, 'name': title, 'description': desc,
               'isPartOf': {'@id': SITE_ID}, 'about': {'@id': CITY_ID}, 'publisher': {'@id': ORG_ID},
-              'inLanguage': 'en-US', 'dateModified': TODAY}
+              'inLanguage': 'en-US', 'dateModified': page_date(f)}
         if ogimg: wp['primaryImageOfPage'] = {'@type': 'ImageObject', 'url': ogimg}
         if bc: wp['breadcrumb'] = {'@id': bc['@id']}
         graph.append(wp)
@@ -394,7 +423,7 @@ def build(f):
                       'blogPost': [{'@type': 'BlogPosting', '@id': BASE + h + '#article', 'headline': text(t), 'url': BASE + h} for h, t in posts]})
     for n in keep:
         n['@id'] = url + '#article'; n['isPartOf'] = {'@id': wp_id}; n['author'] = {'@id': ORG_ID}; n['publisher'] = {'@id': ORG_ID}
-        n['about'] = {'@id': CITY_ID}; n['dateModified'] = TODAY
+        n['about'] = {'@id': CITY_ID}; n['dateModified'] = page_date(f)
         graph[-2]['mainEntity'] = {'@id': n['@id']}
     graph += extra + keep
     ld = json.dumps({'@context': 'https://schema.org', '@graph': graph}, ensure_ascii=False, separators=(',', ':'))
@@ -409,6 +438,7 @@ def build(f):
     return len(graph)
 
 pages = sorted(x for x in os.listdir('.') if x.endswith('.html'))
+for f in pages: page_date(f)
 for f in pages: print(f, build(f))
 
 # ── sitemap ───────────────────────────────────────────────
@@ -421,7 +451,7 @@ for f in pages:
     loc = BASE if slug == 'index' else BASE + slug
     pr = PRI.get(slug, '0.7' if slug.startswith('blog-') else '0.3')
     cf = 'weekly' if pr >= '0.8' else 'monthly'
-    urls.append('  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>%s</changefreq>\n    <priority>%s</priority>\n  </url>' % (loc, TODAY, cf, pr))
+    urls.append('  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>%s</changefreq>\n    <priority>%s</priority>\n  </url>' % (loc, page_date(f), cf, pr))
 open('sitemap.xml', 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + '\n'.join(urls) + '\n</urlset>\n')
 print('sitemap', len(urls))
 
@@ -448,7 +478,8 @@ L = ['# Stay Santa Rosa', '',
      '- Santa Rosa is home to Russian River Brewing Co. (Pliny the Elder), the Charles M. Schulz Museum and Luther Burbank Home & Gardens.',
      '- Armstrong Redwoods (Guerneville) is about 35 minutes west and Bodega Bay on the Sonoma Coast is under an hour away.',
      '- Hotels: Art House Santa Rosa (620 7th St) and Hotel E (37 Old Courthouse Sq), both a short walk from Old Courthouse Square.',
-     '- Listings requests and corrections: hello@staysantarosa.com', '']
+     '- Listings requests and corrections: hello@staysantarosa.com', '',
+     'Full text of every page, plus complete directory details (address, phone, hours, website), in one Markdown file: %sllms-full.txt' % BASE, '']
 for title, slugs in SECTIONS:
     L += ['## ' + title, ''] + [link(sl) for sl in slugs if os.path.exists(sl + '.html')] + ['']
 CATNAME = {'dining': 'Restaurants, cafés and bars', 'wine': 'Wineries and breweries', 'hotels': 'Hotels', 'attractions': 'Attractions'}
@@ -464,6 +495,149 @@ for c in ORDER:
 L += ['## Optional', '', link('about'), link('privacy'), link('terms'), link('accessibility'), '']
 open('llms.txt', 'w', encoding='utf-8').write('\n'.join(L))
 print('llms.txt', len(L), 'lines')
+# ── llms-full.txt (full page text as Markdown for AI assistants) ──
+from html.parser import HTMLParser
+from urllib.parse import urljoin
+
+class MD(HTMLParser):
+    """Minimal HTML → Markdown for page body copy. Skips site chrome (nav, menus, footer),
+    scripts, icons, forms and anything hidden from assistive tech."""
+    SKIP_TAGS = {'nav', 'footer', 'script', 'style', 'svg', 'noscript', 'template', 'form',
+                 'button', 'iframe', 'select', 'textarea', 'head', 'dialog'}
+    SKIP_CLASSES = {'mobile-menu', 'site-header', 'ssr-attribution', 'breadcrumbs', 'breadcrumb',
+                    'sr-only', 'visually-hidden', 'skip-link', 'cookie-banner',
+                    'home-trip-bar', 'trip-bar', 'trip-pill', 'hero-dots', 'tpc-header'}
+    VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'}
+    BLOCK = {'p', 'div', 'section', 'article', 'header', 'aside', 'figure', 'figcaption', 'blockquote',
+             'ul', 'ol', 'table', 'tr', 'dl', 'dt', 'dd', 'address', 'details', 'summary'}
+
+    def __init__(self, page_url):
+        super().__init__(convert_charrefs=True)
+        self.url, self.out, self.skip, self.stack = page_url, [], 0, []
+        self.href, self.lists, self.amark, self.inh = None, [], None, False
+
+    def nl(self, n=2):
+        cur = ''.join(self.out[-3:])
+        need = n - (len(cur) - len(cur.rstrip('\n')))
+        if self.out and need > 0: self.out.append('\n' * need)
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag in self.VOID:
+            if not self.skip and tag == 'br': self.out.append(' ' if self.inh else '\n')
+            return
+        hide = (tag in self.SKIP_TAGS or a.get('aria-hidden') == 'true' or 'hidden' in a
+                or set((a.get('class') or '').split()) & self.SKIP_CLASSES)
+        self.stack.append(bool(hide))
+        if hide: self.skip += 1
+        if self.skip: return
+        if re.fullmatch(r'h[1-6]', tag):
+            self.nl(); self.out.append('#' * int(tag[1]) + ' '); self.inh = True
+        elif tag in ('ul', 'ol'):
+            self.nl(1 if self.lists else 2); self.lists.append([tag, 0])
+        elif tag == 'li':
+            self.nl(1)
+            if self.lists:
+                l = self.lists[-1]; l[1] += 1
+                self.out.append('  ' * (len(self.lists) - 1) + ('%d. ' % l[1] if l[0] == 'ol' else '- '))
+            else:
+                self.out.append('- ')
+        elif tag in ('strong', 'b'): self.out.append('**')
+        elif tag in ('em', 'i'): self.out.append('_')
+        elif tag == 'a':
+            h = (a.get('href') or '').strip()
+            self.href = None if not h or h.startswith(('#', 'javascript:')) else urljoin(self.url, h)
+            if self.href: self.out.append('['); self.amark = len(self.out) - 1
+        elif tag == 'td' or tag == 'th': self.out.append(' | ')
+        elif tag in self.BLOCK: self.nl()
+
+    def handle_endtag(self, tag):
+        if tag in self.VOID or not self.stack: return
+        hidden = self.stack.pop()
+        if hidden: self.skip -= 1; return
+        if self.skip: return
+        if re.fullmatch(r'h[1-6]', tag): self.inh = False; self.nl()
+        elif tag in ('ul', 'ol'):
+            if self.lists: self.lists.pop()
+            self.nl(1 if self.lists else 2)
+        elif tag in ('strong', 'b'): self.out.append('**')
+        elif tag in ('em', 'i'): self.out.append('_')
+        elif tag == 'a' and self.href:
+            inner = ''.join(self.out[self.amark + 1:])
+            if '\n' in inner.strip():          # card-style link wrapping blocks: list the URL after it
+                self.out[self.amark] = ''
+                self.nl(); self.out.append('Link: %s' % self.href); self.nl()
+            else:
+                self.out.append('](%s)' % self.href)
+            self.href = None
+        elif tag in self.BLOCK: self.nl()
+
+    def handle_data(self, d):
+        if self.skip: return
+        d = re.sub(r'\s+', ' ', d)
+        if d.strip() or (self.out and not self.out[-1].endswith(('\n', ' '))): self.out.append(d)
+
+    def markdown(self):
+        t = ''.join(self.out)
+        t = re.sub(r'\*\*\s*\*\*|__', '', t)                 # empty emphasis
+        t = re.sub(r'\[\s*\]\([^)]*\)', '', t)                # links with no text (icons)
+        t = re.sub(r'\[\s+', '[', t); t = re.sub(r'\s+\]\(', '](', t)
+        t = re.sub(r'[ \t]+\n', '\n', t); t = re.sub(r'\n[ \t]+(?![-\d])', '\n', t)
+        t = re.sub(r'(?m)^(#+ |[-*] |\d+\. )\s*$', '', t)      # empty headings/bullets
+        t = re.sub(r'\n{3,}', '\n\n', t)
+        return t.strip()
+
+def page_markdown(f):
+    slug = f[:-5]
+    url = BASE if slug == 'index' else BASE + slug
+    s = open(f, encoding='utf-8').read()
+    body = s[s.find('<body'):] if '<body' in s else s
+    m = MD(url); m.feed(body); m.close()
+    return url, m.markdown()
+
+def hours_line(p):
+    h = p.get('hours')
+    if not h: return p.get('hoursNote') or ''
+    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    vals = [h.get(d, 'Closed') for d in days]
+    if len(set(vals)) == 1: return 'Daily ' + vals[0]
+    return '; '.join('%s %s' % (d[:3], v) for d, v in zip(days, vals))
+
+F = ['# Stay Santa Rosa — full text', '',
+     '> Complete text of every page on staysantarosa.com, a travel guide to Santa Rosa, California (Sonoma County wine country) created by Hotel E and Art House Santa Rosa, followed by full details for every business in the local directory. Summary and page index: %sllms.txt' % BASE, '',
+     'Last generated: %s' % TODAY, '']
+ORDER_PAGES = [sl for _, sls in SECTIONS for sl in sls] + ['about', 'accessibility', 'privacy', 'terms']
+seen = set()
+for sl in ORDER_PAGES:
+    f = sl + '.html'
+    if sl in seen or not os.path.exists(f) or sl == 'directory': continue
+    seen.add(sl)
+    t, d = pmeta(f)
+    url, md = page_markdown(f)
+    F += ['---', '', '# %s' % t, '', 'URL: %s' % url, 'Updated: %s' % page_date(f)] + (['Summary: ' + d] if d else []) + ['']
+    md = re.sub(r'^# [^\n]*\n+', '', md, count=1) if md.startswith('# ') else md   # page H1 already used above
+    F += [re.sub(r'(?m)^(#{1,5}) ', r'#\1 ', md), '']
+
+F += ['---', '', '# Santa Rosa local directory', '', 'URL: %sdirectory' % BASE,
+      'Every business below has a card at %sdirectory#<id>. Hours, ratings and review counts were taken from each business\'s Google Business Profile and may have changed; confirm before visiting.' % BASE, '']
+for c in ORDER:
+    F += ['## ' + CATNAME[c], '']
+    for p in sorted([x for x in DATA if x['cat'] == c], key=lambda x: x['name'].lower()):
+        F += ['### ' + p['name'], '']
+        area = (p.get('area') or '').strip()
+        if area and area.split(',')[0] in (p.get('address') or ''): area = ''
+        rows = [('Type', p.get('type')), ('Area', area), ('Address', p.get('address')),
+                ('Phone', p.get('phone')), ('Website', p.get('website')), ('Hours', hours_line(p)),
+                ('Walk from downtown', '%s min' % p['walk'] if p.get('walk') else ''),
+                ('Distance', p.get('distance')),
+                ('Google rating', '%s (%s reviews)' % (p['rating'], p.get('reviews', '?')) if p.get('rating') else ''),
+                ('Price', ' '.join(t for t in (p.get('tags') or []) if set(t) == {'$'})),
+                ('Map', p.get('maps')), ('Listing', '%sdirectory#%s' % (BASE, p['id']))]
+        F += ['- %s: %s' % (k, v) for k, v in rows if v]
+        if (p.get('desc') or '').strip(): F += ['', p['desc'].strip()]
+        F.append('')
+open('llms-full.txt', 'w', encoding='utf-8').write('\n'.join(F).rstrip() + '\n')
+print('llms-full.txt', len(F), 'lines')
 
 # ── ASSET VERSIONING: bust browser/CDN caches when CSS or JS changes ──
 import hashlib

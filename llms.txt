@@ -10,6 +10,8 @@ Key facts for travelers:
 - Hotels: Art House Santa Rosa (620 7th St) and Hotel E (37 Old Courthouse Sq), both a short walk from Old Courthouse Square.
 - Listings requests and corrections: hello@staysantarosa.com
 
+Full text of every page, plus complete directory details (address, phone, hours, website), in one Markdown file: https://staysantarosa.com/llms-full.txt
+
 ## Plan a trip
 
 - [Santa Rosa Travel Guide | Where to Stay, Eat & Explore](https://staysantarosa.com/): Santa Rosa Travel Guide from locals: downtown boutique hotels, the best restaurants, Sonoma wineries and things to do in Santa Rosa, CA.
