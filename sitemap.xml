@@ -73,8 +73,14 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://staysantarosa.com/blog-flying-into-santa-rosa-sts</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://staysantarosa.com/blog</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
