@@ -809,7 +809,7 @@
 /* Swallow logo wing flap on scroll (progressive enhancement). */
 (function () {
   var s = document.createElement('script');
-  s.src = '/js/logo-flap.js?v=1';
+  s.src = '/js/logo-flap.js?v=2';
   s.defer = true;
   document.head.appendChild(s);
 })();

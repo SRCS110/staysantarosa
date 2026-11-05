@@ -10,8 +10,9 @@
   // Coordinates are in the logo's viewBox space (-4 -4 1472 236).
   var WING = '-4,-4 240,-4 240,78 170,78 163,94 140,125 133,142 110,156 -4,125';
   var BODY = '-4,125 110,156 133,142 140,125 163,94 170,78 240,78 240,240 -4,240';
-  // Hinge: the wing root runs from the shoulder (163,92) to (128,145).
-  var PX = 146, PY = 118, ANGLE = 123.4;
+  // Hinge: a horizontal axis through the shoulder, so the wing beats up and
+  // down over the body like a real downstroke.
+  var PY = 112;
 
   var wings = [];
   var phase = 0, lastY = window.scrollY, idleTimer = null, settling = false, raf = null;
@@ -74,11 +75,10 @@
     });
   }
 
-  // k = 1 is the logo as drawn; negative k folds the wing below the hinge.
+  // k = 1 is the logo as drawn; negative k swings the wing down below the shoulder.
   function render() {
-    var k = 0.3 + 0.7 * Math.cos(phase);
-    var t = 'translate(' + PX + ' ' + PY + ') rotate(' + (-ANGLE) + ') scale(1 ' + k.toFixed(3) +
-            ') rotate(' + ANGLE + ') translate(' + (-PX) + ' ' + (-PY) + ')';
+    var k = 0.2 + 0.8 * Math.cos(phase); // 1 = wing up, -0.6 = wing down over the body
+    var t = 'translate(0 ' + PY + ') scale(1 ' + k.toFixed(3) + ') translate(0 ' + (-PY) + ')';
     for (var i = 0; i < wings.length; i++) wings[i].setAttribute('transform', t);
   }
 
