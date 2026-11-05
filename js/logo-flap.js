@@ -18,7 +18,7 @@
   var L = Math.sqrt((RX - SX) * (RX - SX) + (RY - SY) * (RY - SY));
   var UX = (RX - SX) / L, UY = (RY - SY) / L; // along the root
   var NX = -UY, NY = UX;                      // across the root, toward the wing
-  var PIVOT_Y = 100;                          // shoulder height the wing swings around
+  var PIVOT_Y = 108;                          // shoulder height the wing swings around
 
   function smooth(a, b, v) { var t = Math.min(1, Math.max(0, (v - a) / (b - a))); return t * t * (3 - 2 * t); }
 
@@ -30,7 +30,7 @@
       var x = sp[i], y = sp[i + 1]; i++;
       var vx = x - SX, vy = y - SY;
       var along = vx * UX + vy * UY, across = vx * NX + vy * NY;
-      w.push(smooth(0, 70, across) * (1 - smooth(48, 72, along)));
+      w.push(smooth(0, 55, across) * (1 - smooth(48, 72, along)));
     }
     return w;
   });
@@ -46,8 +46,8 @@
         if (w > 0) {
           // The tip trails the root a little, which gives the beat its follow-through.
           var a = (1 - Math.cos(phase - 0.7 * w)) / 2; // 0 = wing up, 1 = fully down
-          var k = 1 - 1.75 * a;                         // vertical swing around the shoulder
-          y = y + w * (k - 1) * (y - PIVOT_Y);
+          var k = 1 - 2.2 * a;                          // vertical swing around the shoulder
+          y = y + w * (k - 1) * (y - PIVOT_Y) + w * a * 12; // and a push down past the body
           x = x + w * w * a * 12;                       // tip reaches forward on the downstroke
           y = y + w * Math.sin(phase - 0.7 * w) * 4;   // slight bend through the stroke
         }
@@ -84,7 +84,8 @@
         width: img.getAttribute('width') || '232',
         height: img.getAttribute('height') || '40',
         'class': img.getAttribute('class'),
-        focusable: 'false'
+        focusable: 'false',
+        style: 'overflow:visible'
       });
       if (img.getAttribute('aria-hidden') === 'true' || img.getAttribute('alt') === '') {
         svg.setAttribute('aria-hidden', 'true');
