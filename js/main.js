@@ -805,3 +805,11 @@
     if (v.paused) { userPaused = false; v.play(); } else { userPaused = true; v.pause(); }
   });
 })();
+
+/* Swallow logo wing flap on scroll (progressive enhancement). */
+(function () {
+  var s = document.createElement('script');
+  s.src = '/js/logo-flap.js?v=1';
+  s.defer = true;
+  document.head.appendChild(s);
+})();
