@@ -9,3 +9,4 @@ Photos used on staysantarosa.com that did not come from Hotel E or Art House San
 | assets/opt/humpback-whale-breaching-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
 | assets/opt/rain-window-sunset-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
 | assets/opt/white-wine-noodles-table-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
+| assets/opt/sea-otter-eating-crab-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
