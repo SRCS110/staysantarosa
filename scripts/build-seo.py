@@ -165,11 +165,8 @@ CITY = {'@type': ['TouristDestination', 'City'], '@id': CITY_ID, 'name': 'Santa 
 # ── page map: breadcrumb trail + page type ─────────────────
 CRUMB = {
  'dining': [('Downtown Dining', None)],
- 'dining-list': [('Downtown Dining', 'dining'), ('Restaurant List', None)],
  'wine-country': [('Wine & Beer', None)],
- 'wine-country-list': [('Wine & Beer', 'wine-country'), ('Winery & Brewery List', None)],
  'attractions': [('Attractions', None)],
- 'attractions-list': [('Attractions', 'attractions'), ('Attractions & Events List', None)],
  'directory': [('Directory', None)],
  'blog': [('Blog', None)],
  'art-house': [('Hotels', 'hotels'), ('Art House Santa Rosa', None)],
@@ -178,8 +175,8 @@ CRUMB = {
  'terms': [('Terms of Use', None)], 'accessibility': [('Accessibility', None)], 'about': [('About', None)],
 }
 PTYPE = {'index': 'WebPage', 'directory': 'CollectionPage', 'dining': 'CollectionPage', 'wine-country': 'CollectionPage',
-         'attractions': 'CollectionPage', 'dining-list': 'CollectionPage', 'wine-country-list': 'CollectionPage',
-         'attractions-list': 'CollectionPage', 'blog': 'CollectionPage', 'contact': 'ContactPage',
+         'attractions': 'CollectionPage',
+         'blog': 'CollectionPage', 'contact': 'ContactPage',
          'art-house': 'WebPage', 'hotel-e': 'WebPage', 'accessibility': 'WebPage', 'privacy': 'WebPage', 'terms': 'WebPage', 'about': 'AboutPage', 'hotels': 'CollectionPage', 'deals': 'CollectionPage'}
 
 def text(s): return ' '.join(html.unescape(re.sub(r'<[^>]+>', ' ', s or '')).split())
@@ -413,7 +410,7 @@ for f in pages: print(f, build(f))
 
 # ── sitemap ───────────────────────────────────────────────
 PRI = {'index': '1.0', 'directory': '0.9', 'dining': '0.9', 'wine-country': '0.9', 'attractions': '0.9',
-       'art-house': '0.8', 'hotel-e': '0.8', 'hotels': '0.9', 'deals': '0.8', 'dining-list': '0.8', 'wine-country-list': '0.8', 'attractions-list': '0.8', 'blog': '0.7', 'about': '0.5'}
+       'art-house': '0.8', 'hotel-e': '0.8', 'hotels': '0.9', 'deals': '0.8', 'blog': '0.7', 'about': '0.5'}
 urls = []
 for f in pages:
     slug = f[:-5]
@@ -436,8 +433,8 @@ def link(slug):
 SECTIONS = [
  ('Plan a trip', ['index', 'directory', 'contact']),
  ('Where to stay: hotels', ['hotels', 'art-house', 'hotel-e', 'deals']),
- ('Eat and drink', ['dining', 'dining-list', 'wine-country', 'wine-country-list']),
- ('Things to do', ['attractions', 'attractions-list']),
+ ('Eat and drink', ['dining', 'wine-country']),
+ ('Things to do', ['attractions']),
  ('Journal', ['blog'] + sorted(x[:-5] for x in pages if x.startswith('blog-'))),
 ]
 L = ['# Stay Santa Rosa', '',
