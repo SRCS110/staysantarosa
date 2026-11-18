@@ -1,0 +1,237 @@
+/* ──────────────────────────────────────────────────────────────
+   Guide page layout (Things to Do, Downtown Dining, Wineries)
+   One continuous page: intro + key facts, numbered chapters that
+   pair a short editorial lede with every listing in that chapter,
+   then seasonal guides and FAQs. Tokens only, square, flat.
+   ────────────────────────────────────────────────────────────── */
+
+/* ---- On-this-page bar ---- */
+.gp-jump {
+  position: sticky; top: var(--nav-h); z-index: 50;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+  transition: top 0.45s var(--ease-soft);
+}
+body:has(nav.nav-hidden) .gp-jump { top: 0; }
+.gp-jump-inner {
+  max-width: var(--wide); margin-inline: auto;
+  padding: 0 var(--gutter);
+  display: flex; justify-content: center; gap: 2.4rem;
+  overflow-x: auto; scrollbar-width: none;
+}
+.gp-jump-inner::-webkit-scrollbar { display: none; }
+.gp-jump a {
+  flex: none;
+  padding: 1.15rem 0 1.05rem;
+  font: 500 var(--fs-xs)/1 var(--ff-body);
+  letter-spacing: var(--track-caps); text-transform: uppercase;
+  color: var(--ink-mute);
+  border-bottom: 1px solid transparent; margin-bottom: -1px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.gp-jump a:hover, .gp-jump a.is-active { color: var(--contrast); border-bottom-color: var(--contrast); }
+
+/* ---- Sections ---- */
+.gp-section {
+  padding: var(--space-50) var(--gutter);
+  background: var(--page);
+  scroll-margin-top: calc(var(--nav-h) + 3.4rem);
+}
+.gp-band { background: var(--base); }
+.gp-inner { max-width: var(--wide); margin-inline: auto; }
+
+.gp-head { max-width: 720px; margin: 0 auto var(--space-40); text-align: center; }
+.gp-eyebrow {
+  font: 500 var(--fs-xs)/1.4 var(--ff-body);
+  letter-spacing: var(--track-caps); text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-bottom: 1rem;
+}
+.gp-h2 {
+  font-family: var(--ff-display); font-weight: 400;
+  font-size: var(--fs-xl); line-height: var(--lh-heading);
+  letter-spacing: var(--track-title); text-transform: uppercase;
+  color: var(--contrast);
+  margin: 0 0 1.1rem;
+}
+.gp-h2--md { font-size: var(--fs-lg); }
+.gp-h2 em { font-style: normal; color: inherit; }
+.gp-divider { width: 40px; height: 1px; background: var(--accent); margin: 0 auto 1.3rem; }
+.gp-sub { max-width: var(--content); margin: 0 auto; color: var(--ink-soft); line-height: var(--lh-body); }
+
+.gp-section p { line-height: var(--lh-body); }
+.gp-section p a, .gp-row-copy a {
+  color: var(--contrast);
+  border-bottom: 1px solid currentColor;
+  transition: color var(--transition);
+}
+.gp-section p a:hover { color: var(--accent-dim); }
+
+.gp-text-link {
+  display: inline-block;
+  font: 500 var(--fs-xs)/1.2 var(--ff-body);
+  letter-spacing: var(--track-caps); text-transform: uppercase;
+  color: var(--contrast);
+  padding-bottom: 3px; border-bottom: 1px solid currentColor;
+  transition: color var(--transition);
+}
+.gp-text-link::after { content: ' \2192'; }
+.gp-text-link:hover { color: var(--accent-dim); }
+
+/* ---- Intro + key facts ---- */
+.gp-intro {
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: var(--gap-feature); align-items: start;
+}
+.gp-intro-copy p { color: var(--ink); margin: 0 0 1.1rem; }
+.gp-facts {
+  background: var(--base);
+  border-left: 1px solid var(--accent);
+  padding: 2rem 2.2rem 2.1rem;
+}
+.gp-facts .gp-eyebrow { margin-bottom: 0.6rem; }
+.gp-facts dl { margin: 0; }
+.gp-facts dl > div {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.gp-facts dt {
+  font-family: var(--ff-display); text-transform: uppercase;
+  letter-spacing: 0.05em; font-size: 0.95rem; line-height: 1.3;
+  color: var(--contrast);
+}
+.gp-facts dd { margin: 0; font-size: var(--fs-sm); color: var(--ink-soft); white-space: nowrap; }
+.gp-facts-note { margin: 1.1rem 0 0; font-size: var(--fs-sm); color: var(--ink-soft); }
+
+/* ---- Listing cards (flat, image first) ---- */
+.gp-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-40) var(--space-30);
+}
+.gp-card-img {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--base-2);
+}
+.gp-card-photo {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 1s var(--ease-soft);
+}
+.gp-card:hover .gp-card-photo { transform: scale(1.03); }
+.gp-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  background: var(--page); color: var(--contrast);
+  font: 500 0.62rem/1 var(--ff-body);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.55em 0.8em;
+}
+.gp-card-body { padding: 1.4rem 0 0.4rem; }
+.gp-card .lp-card-title {
+  font-family: var(--ff-display); font-weight: 400;
+  font-size: 1.12rem; line-height: 1.3;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--contrast);
+  margin: 0 0 0.45rem;
+  transition: color var(--transition);
+}
+.gp-card:hover .lp-card-title { color: var(--accent-dim); }
+.gp-card-meta {
+  font: 500 var(--fs-xs)/1.5 var(--ff-body);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 0.8rem;
+}
+.gp-card p { margin: 0 0 1.1rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+
+/* ---- Feature row (image | copy) ---- */
+.gp-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap-feature); align-items: center;
+  margin-bottom: var(--space-50);
+}
+.gp-row-media { margin: 0; }
+.gp-row-photo { aspect-ratio: 4 / 3; background: var(--base-2) center / cover no-repeat; }
+.gp-row-media figcaption {
+  margin-top: 0.9rem;
+  font: 500 var(--fs-xs)/1.4 var(--ff-body);
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute);
+}
+.gp-row-copy p { margin: 0 0 1.1rem; color: var(--ink); }
+.gp-row-copy ul { margin: 0 0 1.2rem; padding-left: 1.1rem; }
+.gp-row-copy li { margin-bottom: 0.5rem; line-height: var(--lh-body); }
+.gp-row-copy li::marker { color: var(--accent); }
+
+/* ---- Events (existing cards, flattened) ---- */
+.gp-section .event-grid { margin-top: 0; }
+.gp-section .event-card { border: 1px solid var(--line); }
+.gp-section .event-card,
+.gp-section .event-card:hover { box-shadow: none; transform: none; }
+
+/* ---- Rainy day + seasonal guides ---- */
+.gp-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: var(--gap-feature); align-items: start;
+}
+.gp-callout {
+  background: var(--page);
+  border-left: 1px solid var(--accent);
+  padding: 2.4rem 2.6rem;
+}
+.gp-callout p { margin: 0 0 1.1rem; color: var(--ink); }
+.gp-callout .gp-text-link { margin-top: 0.4rem; }
+.gp-guides { list-style: none; margin: 0.6rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+.gp-guides li { border-bottom: 1px solid var(--line); }
+.gp-guides a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1.2rem;
+  padding: 1.05rem 0;
+  color: var(--contrast);
+}
+.gp-guides a::after { content: '\2192'; color: var(--ink-mute); transition: color var(--transition), transform var(--transition); }
+.gp-guides a:hover::after { color: var(--accent-dim); transform: translateX(3px); }
+.gp-guide-copy strong {
+  display: block;
+  font-family: var(--ff-display); font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-size: 0.98rem; line-height: 1.3;
+  transition: color var(--transition);
+}
+.gp-guides a:hover strong { color: var(--accent-dim); }
+.gp-guide-copy > span { display: block; margin-top: 0.25rem; font-size: var(--fs-sm); color: var(--ink-soft); }
+
+/* ---- FAQ ---- */
+.gp-faq { max-width: 820px; margin: 0 auto; border-top: 1px solid var(--line); }
+.gp-faq .seo-faq-item { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.gp-faq .seo-faq-item:last-child { border-bottom: 1px solid var(--line); }
+.gp-faq h3 {
+  font-family: var(--ff-display); font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  font-size: 1.08rem; line-height: 1.35;
+  color: var(--contrast);
+  margin: 0 0 0.6rem;
+}
+.gp-faq p { margin: 0; color: var(--ink-soft); }
+.gp-listing-note {
+  max-width: 820px; margin: 2.4rem auto 0;
+  text-align: center; font-size: var(--fs-sm); color: var(--ink-mute);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1080px) {
+  .gp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gp-intro, .gp-split, .gp-row { gap: var(--space-40); }
+}
+@media (max-width: 860px) {
+  .gp-jump-inner { justify-content: flex-start; gap: 1.7rem; }
+  .gp-intro, .gp-split, .gp-row { grid-template-columns: 1fr; gap: 2.4rem; }
+  .gp-row { margin-bottom: 3.5rem; }
+}
+@media (max-width: 640px) {
+  .gp-section { padding: 3.5rem var(--gutter); }
+  .gp-grid { grid-template-columns: 1fr; gap: 2.8rem; }
+  .gp-facts, .gp-callout { padding: 1.7rem 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gp-card-photo, .gp-jump, .gp-guides a::after { transition: none; }
+}
