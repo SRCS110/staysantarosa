@@ -10,3 +10,5 @@ Photos used on staysantarosa.com that did not come from Hotel E or Art House San
 | assets/opt/rain-window-sunset-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
 | assets/opt/white-wine-noodles-table-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
 | assets/opt/gull-with-crab-shoreline-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-05 | Photographer credit not provided |
+| assets/opt/holiday-wine-glass-pine-bear-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-18; originally from Pexels (photo 29668196) | Photo: Alena Evseenko on Pexels (Pexels license); cropped |
+| assets/opt/wine-gift-bag-bench-1200.webp, -768.webp | Supplied by Daniel Williams (Hotel E), 2026-11-18; originally from Pexels | Photo: Cup of Couple on Pexels (Pexels license) |
