@@ -4209,3 +4209,29 @@ h1.hero-eyebrow { font-family: var(--ff-body); }
   .guide-notes:has(+ .lp-section-alt) { padding-bottom: 3.2rem; }
   .guide-notes .seo-block-inner { padding-top: 2.2rem; }
 }
+
+/* ── Article: distance table + restaurant entries (restaurants-near-hotels post) ── */
+.article-body .post-table-wrap { overflow-x: auto; margin: var(--space-30) auto; }
+.article-body .post-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+.article-body .post-table caption { text-align: left; font-size: var(--fs-xs); font-weight: 500; letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-dim); padding-bottom: 0.8rem; }
+.article-body .post-table th, .article-body .post-table td { padding: 0.95rem 0.8rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.article-body .post-table thead th { font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); border-bottom: 1px solid var(--contrast); }
+.article-body .post-table tbody th { font-family: var(--ff-display); font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em; color: var(--contrast); }
+.article-body .post-table td small { display: block; color: var(--ink-mute); font-size: 0.78rem; }
+.article-body .spot { border-top: 1px solid var(--line); padding-top: var(--space-30); margin-top: var(--space-30); }
+.article-body .spot-tag { font-size: var(--fs-xs); font-weight: 500; letter-spacing: var(--track-caps); text-transform: uppercase; color: var(--accent-dim); margin-bottom: 0.4rem; }
+.article-body .spot h2 { margin: 0 0 0.4rem; font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.7rem); }
+.article-body .spot-addr { font-size: var(--fs-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 1rem; }
+.article-body .spot-img { margin: 0 0 1.3rem; overflow: hidden; }
+.article-body .spot-img img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.article-body .spot-img figcaption { margin-top: 0.5rem; }
+.article-body .spot-dist { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); margin-bottom: 1.3rem; }
+.article-body .spot-dist > div { padding: 1rem 1.2rem; }
+.article-body .spot-dist > div + div { border-left: 1px solid var(--line); }
+.article-body .spot-dist-label { font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); }
+.article-body .spot-dist-num { font-family: var(--ff-display); font-size: 1.35rem; color: var(--contrast); line-height: 1.3; }
+.article-body .spot-dist-sub { font-size: 0.82rem; color: var(--ink-soft); }
+@media (max-width: 520px) {
+  .article-body .spot-dist { grid-template-columns: 1fr; }
+  .article-body .spot-dist > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
