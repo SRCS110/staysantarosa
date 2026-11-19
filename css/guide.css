@@ -217,9 +217,44 @@ body:has(nav.nav-hidden) .gp-jump { top: 0; }
   text-align: center; font-size: var(--fs-sm); color: var(--ink-mute);
 }
 
+/* ---- Four-up grid (wine, breweries) ---- */
+.gp-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-40) var(--space-20); }
+.gp-grid--4 .lp-card-title { font-size: 1.02rem; }
+.gp-card-sigs {
+  margin: -0.4rem 0 1.1rem;
+  font-size: var(--fs-xs); line-height: 1.6; color: var(--ink-mute);
+  letter-spacing: 0.04em;
+}
+.gp-card-sigs span { color: var(--ink-soft); }
+
+/* ---- Text-led listings (no photography) ---- */
+.gp-items {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--gap-feature);
+  border-top: 1px solid var(--line);
+}
+.gp-items--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--space-40); }
+.gp-item { padding: 2.1rem 0 2.2rem; border-bottom: 1px solid var(--line); }
+.gp-item-tag {
+  font: 500 var(--fs-xs)/1.4 var(--ff-body);
+  letter-spacing: var(--track-caps); text-transform: uppercase;
+  color: var(--accent-dim);
+  margin-bottom: 0.7rem;
+}
+.gp-item .lp-card-title {
+  font-family: var(--ff-display); font-weight: 400;
+  font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem); line-height: 1.25;
+  letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--contrast);
+  margin: 0 0 0.5rem;
+}
+.gp-item p { margin: 0 0 1.2rem; color: var(--ink-soft); font-size: var(--fs-sm); max-width: 560px; }
+.gp-row--flush { margin-bottom: 0; }
+
 /* ---- Responsive ---- */
 @media (max-width: 1080px) {
-  .gp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gp-grid, .gp-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gp-items--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-40); }
   .gp-intro, .gp-split, .gp-row { gap: var(--space-40); }
 }
 @media (max-width: 860px) {
@@ -229,9 +264,29 @@ body:has(nav.nav-hidden) .gp-jump { top: 0; }
 }
 @media (max-width: 640px) {
   .gp-section { padding: 3.5rem var(--gutter); }
-  .gp-grid { grid-template-columns: 1fr; gap: 2.8rem; }
+  .gp-grid, .gp-grid--4 { grid-template-columns: 1fr; gap: 2.8rem; }
+  .gp-items, .gp-items--3 { grid-template-columns: 1fr; }
+  .gp-item { padding: 1.7rem 0 1.8rem; }
   .gp-facts, .gp-callout { padding: 1.7rem 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .gp-card-photo, .gp-jump, .gp-guides a::after { transition: none; }
+}
+
+/* ---- Type tile: listing without a photo ---- */
+.gp-card-img--type {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0.9rem; padding: 1.5rem;
+  background: var(--contrast); color: var(--page); text-align: center;
+}
+.gp-type-word {
+  font-family: var(--ff-display); text-transform: uppercase;
+  letter-spacing: var(--track-title); line-height: 1.15;
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+}
+.gp-type-rule { width: 40px; height: 1px; background: var(--brand-terracotta-lt); }
+.gp-type-place {
+  font: 500 0.62rem/1 var(--ff-body);
+  letter-spacing: var(--track-caps); text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
 }
