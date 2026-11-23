@@ -3945,6 +3945,11 @@ footer .btn-gold:hover, footer .btn-slate:hover { background: var(--contrast); b
   width: 0; height: 0; border-right: 0; border-left: 9px solid var(--page);
   border-top: 6px solid transparent; border-bottom: 6px solid transparent; margin-left: 3px;
 }
+@media (max-width: 799px) {
+  .hero-video-toggle { display: none; }
+  .hero-video { pointer-events: none; }
+  .hero-video::-webkit-media-controls, .hero-video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
+}
 
 
 /* ══════════════════════════════════════════════════════════════

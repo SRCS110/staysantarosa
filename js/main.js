@@ -801,6 +801,9 @@
   document.addEventListener('visibilitychange', function () { if (!document.hidden) tryPlay(); });
   v.addEventListener('pause', function () { setState(true); });
   v.addEventListener('play', function () { setState(false); });
+  // Phones: no pause control, keep the video playing.
+  var isPhone = window.matchMedia('(max-width: 799px)');
+  v.addEventListener('pause', function () { if (isPhone.matches && !document.hidden) { userPaused = false; setTimeout(tryPlay, 50); } });
   if (btn) btn.addEventListener('click', function () {
     if (v.paused) { userPaused = false; v.play(); } else { userPaused = true; v.pause(); }
   });
