@@ -646,7 +646,9 @@
         ticking = false;
         var y = Math.max(0, window.scrollY), d = y - last;
         var open = menu && menu.classList.contains('open');
-        if (!mq.matches || open || el.contains(document.activeElement) || y <= el.offsetHeight) { show(); last = y; return; }
+        var hero = document.querySelector('.hero, .hotel-hero, .dining-hero, .wine-hero, .attr-hero, .blog-hero, .legal-hero');
+        var holdUntil = hero ? hero.getBoundingClientRect().bottom + y - el.offsetHeight : el.offsetHeight;
+        if (!mq.matches || open || el.contains(document.activeElement) || y <= Math.max(el.offsetHeight, holdUntil)) { show(); last = y; return; }
         if (d > 6) { el.classList.add('nav-hidden'); root.classList.add('nav-is-hidden'); last = y; }
         else if (d < -6) { show(); last = y; }
       }
