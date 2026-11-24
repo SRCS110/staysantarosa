@@ -632,23 +632,28 @@
       mo.observe(document.body, { childList: true, subtree: true });
     });
 
-    /* ── nav: hide on scroll down, reveal on scroll up ─────────────── */
+    /* ── nav: on mobile, hide on scroll down, reveal on scroll up ──── */
     ready(function () {
       var nav = document.querySelector('nav');
-      if (!nav || reduce) return;
+      var el = document.querySelector('.has-top-banner .site-header') || nav;
+      if (!el || reduce) return;
+      var mq = window.matchMedia('(max-width: 1080px)');
+      var menu = document.getElementById('mobileMenu');
       var last = window.scrollY, ticking = false;
+      function show() { el.classList.remove('nav-hidden'); }
       function update() {
-        var y = window.scrollY;
-        var menuOpen = document.getElementById('mobileMenu') &&
-                       document.getElementById('mobileMenu').classList.contains('open');
-        // header stays fixed and visible at all times
-        nav.classList.remove('nav-hidden');
-        last = y;
         ticking = false;
+        var y = Math.max(0, window.scrollY), d = y - last;
+        var open = menu && menu.classList.contains('open');
+        if (!mq.matches || open || el.contains(document.activeElement) || y <= el.offsetHeight) { show(); last = y; return; }
+        if (d > 6) { el.classList.add('nav-hidden'); last = y; }
+        else if (d < -6) { show(); last = y; }
       }
       window.addEventListener('scroll', function () {
         if (!ticking) { ticking = true; requestAnimationFrame(update); }
       }, { passive: true });
+      el.addEventListener('focusin', show);
+      if (mq.addEventListener) mq.addEventListener('change', show);
     });
 
     /* ── reading progress bar on article pages ────────────────────── */

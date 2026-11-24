@@ -4241,3 +4241,12 @@ h1.hero-eyebrow { font-family: var(--ff-body); }
   .article-body .spot-dist { grid-template-columns: 1fr; }
   .article-body .spot-dist > div + div { border-left: 0; border-top: 1px solid var(--line); }
 }
+
+/* ── Mobile: header slides away on scroll down, returns on scroll up ── */
+@media (max-width: 1080px) {
+  nav, .has-top-banner .site-header { transition: background var(--transition), border-color var(--transition), transform 0.35s var(--ease-soft); }
+  nav.nav-hidden, .has-top-banner .site-header.nav-hidden { transform: translateY(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  nav.nav-hidden, .has-top-banner .site-header.nav-hidden { transform: none; }
+}
