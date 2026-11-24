@@ -3540,9 +3540,10 @@ footer { background: var(--contrast); padding: var(--space-50) var(--gutter) 2.2
 /* Hero copy sits on a stronger scrim so it reads on bright interiors */
 .hero-overlay {
   background:
-    radial-gradient(ellipse 70% 60% at 50% 48%, rgba(17,17,17,0.5) 0%, rgba(17,17,17,0) 75%),
-    linear-gradient(to bottom, rgba(17,17,17,0.55) 0%, rgba(17,17,17,0.3) 35%, rgba(17,17,17,0.35) 65%, rgba(17,17,17,0.75) 100%);
+    radial-gradient(ellipse 60% 50% at 50% 48%, rgba(17,17,17,0.22) 0%, rgba(17,17,17,0) 75%),
+    linear-gradient(to bottom, rgba(17,17,17,0.35) 0%, rgba(17,17,17,0.08) 30%, rgba(17,17,17,0.1) 65%, rgba(17,17,17,0.5) 100%);
 }
+.hero .hero-content { text-shadow: 0 1px 3px rgba(0,0,0,0.35), 0 2px 24px rgba(0,0,0,0.3); }
 .hero-tagline { color: var(--page); opacity: 0.9; }
 .hero-title, .hotel-hero-name, :is(.dining-hero, .wine-hero, .attr-hero) .hero-title { text-shadow: 0 2px 30px rgba(0,0,0,0.25); }
 
