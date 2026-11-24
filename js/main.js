@@ -640,13 +640,14 @@
       var mq = window.matchMedia('(max-width: 1080px)');
       var menu = document.getElementById('mobileMenu');
       var last = window.scrollY, ticking = false;
-      function show() { el.classList.remove('nav-hidden'); }
+      var root = document.documentElement;
+      function show() { el.classList.remove('nav-hidden'); root.classList.remove('nav-is-hidden'); }
       function update() {
         ticking = false;
         var y = Math.max(0, window.scrollY), d = y - last;
         var open = menu && menu.classList.contains('open');
         if (!mq.matches || open || el.contains(document.activeElement) || y <= el.offsetHeight) { show(); last = y; return; }
-        if (d > 6) { el.classList.add('nav-hidden'); last = y; }
+        if (d > 6) { el.classList.add('nav-hidden'); root.classList.add('nav-is-hidden'); last = y; }
         else if (d < -6) { show(); last = y; }
       }
       window.addEventListener('scroll', function () {

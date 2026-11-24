@@ -4250,3 +4250,10 @@ h1.hero-eyebrow { font-family: var(--ff-body); }
 @media (prefers-reduced-motion: reduce) {
   nav.nav-hidden, .has-top-banner .site-header.nav-hidden { transform: none; }
 }
+
+/* ── Mobile: sticky bars snap to the top while the header is hidden ── */
+@media (max-width: 1080px) {
+  .dir-bar, .deal-prop-card { transition: top 0.35s var(--ease-soft); }
+  html.nav-is-hidden .dir-bar { top: 0; }
+  html.nav-is-hidden .deal-prop-card { top: 1.2rem; }
+}
