@@ -91,8 +91,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://staysantarosa.com/blog-holiday-skating-snoopys-home-ice-santa-rosa</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://staysantarosa.com/blog-mushroom-foraging-salt-point-sonoma-coast</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://staysantarosa.com/blog-waterfalls-near-santa-rosa</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://staysantarosa.com/blog</loc>
-    <lastmod>2026-11-19</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
